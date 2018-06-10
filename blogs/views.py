@@ -52,7 +52,7 @@ def index(request):
 
     }
     return render(request, 'index.html', ctx)
-def list1(request,tid=-1):
+def list1(request,tid=-1,cid=-1):
     tags_list = Tags.objects.all()
     comment_list = Comment.objects.order_by('-pub_date')
     new_comment_list = []
@@ -61,8 +61,16 @@ def list1(request,tid=-1):
             new_comment_list.append(test.post)
     if tid != -1:
         post_list = Post.objects.filter(tags=tid)
+    elif cid !=-1:
+        post_list = Post.objects.filter(category=cid)
     else:
         post_list = Post.objects.order_by('-pub_date')
+    try:
+        page = request.GET.get('page', 1)
+    except PageNotAnInteger:
+        page = 1
+    p = Paginator(post_list, per_page=1, request=request)
+    post_list = p.page(page)
     ctx={
         'post_list':post_list,
         'tags_list':tags_list,
@@ -79,12 +87,15 @@ class Searchviews(View):
     def post(self):
         pass
 
-def show(request):
+def show(request,did=-1):
     # if nid!= -1:
     #     post = Post.objects.filter(id=nid)
     # else:
-    post_list = Post.objects.order_by('-views')
-    post = post_list[0]
+    if did !=-1:
+        post = Post.objects.get(id=did)
+    else:
+        post_list = Post.objects.order_by('-views')
+        post = post_list[0]
 
     # post_list = Post.objects.all()
     # pid=[]

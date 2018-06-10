@@ -63,7 +63,7 @@
                 <h3>最新发布</h3>
                 <div class="more">
                     {% for blogcategory in blogcategory_list %}
-                        <a href="#" title="{{ blogcategory.name }}">{{ blogcategory }}</a>
+                        <a href="{% url 'blog:classify' blogcategory.id%}" title="{{ blogcategory.name }}">{{ blogcategory }}</a>
                     {% endfor %}
 
                 </div>

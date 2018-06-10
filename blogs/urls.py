@@ -13,4 +13,6 @@ urlpatterns = [
     url(r'^base/$',base, name='base'),
     url(r'^show/$',show, name='show'),
     url(r'^tags(?P<tid>[0-9]+)/$',list1, name='tags'),
+    url(r'^classify(?P<cid>[0-9]+)/$',list1, name='classify'),
+    url(r'^details(?P<did>[0-9]+)/$',show, name='details'),
 ]
